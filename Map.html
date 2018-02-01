@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<head>
+	<title>map</title>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=67jMQ5DmYTe1TLMBKFUTcZAR"></script>
+	<script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+</head>
+<body>
+<div id="map">
+	 <div style="width: 100%; height: 800px;" id="mymap"></div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		showMap(120.19,30.26); //初始坐标
+	})
+
+	//传入坐标，然后跳转到该位置
+	function showMap(x, y) {
+		var map = new BMap.Map("mymap");
+		map.centerAndZoom(new BMap.Point(x, y), 15); //坐标，放大倍数
+		//显示左上角的辅助栏
+		 map.addControl(new BMap.NavigationControl());
+		//创建小红点
+		var marker = new BMap.Marker(new BMap.Point(x, y));
+		map.addOverlay(marker);
+		//穿件创建小红点上的提示框
+		var infoWindow = new BMap.InfoWindow("<p>名字:风玡</p><p>phone:12345678911</p>");
+		marker.addEventListener("click", function(){
+			this.openInfoWindow(infoWindow);
+		})
+
+	}
+</script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+    <style type="text/css">
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  padding: 20px;
+  text-align: left;
+  font-family: Lato;
+  color: #fff;
+  background: #eeeeee;
+}
+
+.tabs {
+  width: 100%;
+  float: none;
+  list-style: none;
+  position: relative;
+  margin: 0 0 0 0;
+  text-align: left;
+}
+.tabs li {
+  float: left;
+  display: block;
+}
+.tabs input[type="radio"] {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
+.tabs label {
+  display: block;
+  padding: 14px 21px;
+  border-radius: 2px 2px 0 0;
+  font-size: 20px;
+  font-weight: normal;
+  text-transform: uppercase;
+  background: #a8a8a8;
+  cursor: pointer;
+  position: relative;
+  top: 4px;
+  -webkit-transition: all 0.4s ease-in-out;
+  -moz-transition: all 0.4s ease-in-out;
+  -o-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+}
+.tabs label:hover {
+  background: #703636;
+}
+.tabs .tab-content {
+  z-index: 2;
+  display: none;
+  overflow: hidden;
+  width: 100%;
+  font-size: 17px;
+  line-height: 25px;
+  padding: 25px;
+  position: absolute;
+  top: 53px;
+  left: 0;
+  background: #612e76;
+
+}
+.tabs [id^="tab"]:checked + label {
+  top: 0;
+  padding-top: 17px;
+  background: #612e76;
+}
+.tabs [id^="tab"]:checked ~ [id^="tab-content"] {
+  display: block;
+}
+
+
+ .control{
+      position:absolute;
+      top:160px;
+      float:left; //画框左侧
+           }
+
+ .data{
+        position:relative;
+        top:140px;
+        display: inline-block;
+    	padding: 10px 20px;
+    	-webkit-border-radius: 30px;
+  		-moz-border-radius: 30px;
+  		border-radius: 30px;
+		width:35%;
+		height: 500px;
+		border: 12px gray solid;
+		float: right;
+		overflow: auto;
+	}
+
+ .white{
+        display: inline-block;
+    	padding: 20px 20px;
+    	-webkit-border-radius: 18px;
+  		-moz-border-radius: 18px;
+  		border-radius: 18px;
+        width: 80px;
+        height: 80px;
+        color: #000;
+        background: #ddd;
+        margin: 40px;
+    }
+ .blue{
+
+        width: 80px;
+        height: 80px;
+        color: #fff;
+        background: #444;
+        margin: 40px;
+    }
+ .bk{
+        color: #111;
+    }
+
+
+    </style>
+
+
+<script type="text/javascript">
+//定时器
+c=0;
+function timedCount()
+{
+document.getElementById('return_data').innerHTML=c
+c=c+1
+//loadXMLDoc('do_action=upper_left');
+t=setTimeout("timedCount()",500)
+}
+
+function stopCount()
+{
+document.getElementById('return_data').innerHTML=''
+clearTimeout(t)
+}
+
+//键盘长按
+
+var obj = document.getElementById("n");
+var time1,time2;
+function run() {
+    obj.innerHTML++;
+}
+obj.onmousedown = function () {
+    run();
+    time1 = setTimeout(function() {
+        time2 = setInterval(run, 300);//第二次之后每次的延时时间
+    }, 3000);//第一次执行后的延时时间
+}
+obj.onmouseup = obj.onmouseout = function () {
+    clearTimeout(time1);
+    clearInterval(time2);
+}
+
+
+
+var xmlhttp;
+function loadXMLDoc(url)
+{
+xmlhttp=null;
+if (window.XMLHttpRequest)
+  {// code for IE7, Firefox, Opera, etc.
+  xmlhttp=new XMLHttpRequest();
+  }
+else if (window.ActiveXObject)
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+if (xmlhttp!=null)
+  {
+  xmlhttp.onreadystatechange=state_Change;
+  xmlhttp.open("GET",url,true);
+  xmlhttp.send(null);
+
+  }
+else
+  {
+  alert("Your browser does not support XMLHTTP.");
+  }
+}
+
+function state_Change()
+{
+if (xmlhttp.readyState==4)
+  {// 4 = "loaded"
+  //document.getElementById('return_data').innerHTML=xmlhttp.Host;
+  if (xmlhttp.status==200)
+    {// 200 = "OK"
+
+    document.getElementById('return_data').innerHTML=xmlhttp.responseText;
+    //document.getElementById('A2').innerHTML=xmlhttp.statusText;
+    //document.getElementById('A3').innerHTML=xmlhttp.responseText;
+    }
+  else
+    {
+    alert("Problem retrieving XML data:" + xmlhttp.statusText);
+    }
+  }
+}
+</script>
+</head>
+
+
+<body>
+<ul class="tabs">
+<li>
+<input type="radio" name="tabs" id="tab1" onclick = "location='http://127.0.0.1:8000/python.html'"  />
+<label for="tab1">控制界面</label>
+</li>
+<li>
+<input type="radio" name="tabs" id="tab2" onclick = "location='http://127.0.0.1:8000/index.html'"/>
+<label for="tab2">地图界面</label>
+</li>
+</ul>
+
+    <!-- 控制部分 -->
+   <div class="control">
+      <p>
+         <input type="button" value="左上" onclick = "loadXMLDoc('do_action=upper_left') " class="white">
+         <input type="button" value="上方" onclick = "loadXMLDoc('do_action=up')" class="blue">
+         <input type="button" value="右上" onclick = "loadXMLDoc('do_action=upper_right')" class="white">
+      </p >
+
+      <p>
+         <input type="button" value="左方" onclick = "loadXMLDoc('do_action=left')" class="blue">
+         <input type="button" value="开启小车" onclick = "loadXMLDoc('do_action=riki')" class="blue" >
+         <input type="button" value="右方" onclick = "loadXMLDoc('do_action=right')" class="blue">
+          <input type="button" value="开启键盘" onclick = "loadXMLDoc('do_action=keyboard')" class="blue" >
+      </p >
+
+      <p>
+         <input type="button" value="左下" onclick = "loadXMLDoc('do_action=lower_left') " class="white">
+         <input type="button" value="下方" onclick = "loadXMLDoc('do_action=down')" class="blue">
+         <input type="button" value="右下" onclick = "loadXMLDoc('do_action=lower_right')" class="white">
+      </p >
+   </div>
+
+    <!-- 数据显示区 -->
+   <div class="data" id = "show">
+   <input type="button" id = "return_data_start" value="开始显示" onclick = "timedCount()" >
+   <input type="button" id = "return_data_stop" value="停止显示" onclick = "stopCount()" >
+   <p id= "return_data" class="bk">no in put</p>
+   </div>
+
+<script src="js/index.js"></script>
+
+</body>
+</html>
